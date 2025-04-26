@@ -8,6 +8,7 @@ import Nation from '../views/base/NationView.vue';
 import Qualification from '../views/base/QualificationView.vue';
 import Department from '../views/base/DepartmentView.vue';
 import Passport from '../views/base/PassportView.vue';
+import NoticeType from '../views/base/NoticeTypeView.vue';
 import InternalFinance from '../views/finance/InternalFinanceView.vue';
 import Hydroelectricity from '../views/hydroelectricity/HydroelectricityInfoView.vue';
 import Supervision from '../views/supervision/SupervisionView.vue';
@@ -68,6 +69,12 @@ const routes = [
         path: '/passport',
         name: 'passport',
         component: Passport,
+        meta: { requiresAuth: true }
+      },
+      {
+        path: '/noticetype',
+        name: 'noticetype',
+        component: NoticeType,
         meta: { requiresAuth: true }
       },
       {

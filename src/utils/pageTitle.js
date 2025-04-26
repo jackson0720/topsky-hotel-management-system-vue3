@@ -12,6 +12,8 @@ export function getPageTitle(routePath) {
           return 'message.departmentManage';
       case '/passport':
           return 'message.passportManage';
+      case '/noticetype':
+          return 'message.noticeTypeManage';
       case '/internalfinance':
           return 'message.internalFinanceBill';
       case '/hydroelectricinformation':
