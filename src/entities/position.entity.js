@@ -1,7 +1,6 @@
 import { BaseFields, BaseInitialValues } from './common.entity';
 
 export const PositionSpecificFields = {
-    ID: 'Id',
     NUMBER: 'PositionNumber',
     NAME: 'PositionName'
   };

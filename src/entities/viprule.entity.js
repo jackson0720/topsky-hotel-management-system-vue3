@@ -1,7 +1,7 @@
 import { BaseFields, BaseInitialValues } from './common.entity';
 
 export const VipRuleSpecificFields = {
-  ID: 'RuleSerialNumber',
+  NUMBER: 'RuleSerialNumber',
   NAME: 'RuleName',
   VALUE: 'RuleValue',
   CUSTOMER_TYPE_ID: 'VipLevelId',
@@ -15,7 +15,7 @@ export const VipRuleFields = {
 
 export const initialFormValues = {
   ...BaseInitialValues,
-  [VipRuleFields.ID]: null,
+  [VipRuleFields.NUMBER]: null,
   [VipRuleFields.NAME]: '',
   [VipRuleFields.VALUE]: null,
   [VipRuleFields.CUSTOMER_TYPE_ID]: null
@@ -24,9 +24,9 @@ export const initialFormValues = {
 export const getColumns = (t) => [
   {
     title: t('message.vipRuleId'),
-    dataIndex: VipRuleFields.ID,
-    key: VipRuleFields.ID,
-    sorter: (a, b) => a[VipRuleFields.ID].localeCompare(b[VipRuleFields.ID]),
+    dataIndex: VipRuleFields.NUMBER,
+    key: VipRuleFields.NUMBER,
+    sorter: (a, b) => a[VipRuleFields.NUMBER].localeCompare(b[VipRuleFields.NUMBER]),
     defaultSortOrder: 'ascend'
   },
   {

@@ -87,6 +87,7 @@
       });
       if (result?.listSource) {
         roles.value = result.listSource.map(item => ({
+        [RoleFields.ID]: item[RoleFields.ID],
         [RoleFields.NUMBER]: item[RoleFields.NUMBER],
         [RoleFields.NAME]: item[RoleFields.NAME],
         [RoleFields.DESCRIPTION]: item[RoleFields.DESCRIPTION]
@@ -126,6 +127,7 @@
   const editRole = (record) => {
     modalVisible.value = true;
     modalTitle.value = t('message.updateRole');
+    form[RoleFields.ID] = record[RoleFields.ID];
     form[RoleFields.NUMBER] = record[RoleFields.NUMBER];
     form[RoleFields.NAME] = record[RoleFields.NAME];
     form[RoleFields.DESCRIPTION] = record[RoleFields.DESCRIPTION];

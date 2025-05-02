@@ -19,8 +19,8 @@
 
     <a-modal :open="modalVisible" :title="modalTitle" @ok="handleModalOk" @cancel="handleModalCancel" :confirm-loading="confirmLoading">
       <a-form :model="form" :rules="rules" ref="formRef">
-        <a-form-item :label="vipruleIdLabel" :name="VipRuleFields.ID">
-          <span>{{ form[VipRuleFields.ID] }}</span>
+        <a-form-item :label="vipruleIdLabel" :name="VipRuleFields.NUMBER">
+          <span>{{ form[VipRuleFields.NUMBER] }}</span>
         </a-form-item>
         
         <a-form-item :label="vipruleNameLabel" :name="VipRuleFields.NAME">
@@ -118,6 +118,7 @@ const fetchVipRuleData = async () => {
     if (result?.listSource) {
       viprules.value = result.listSource.map(item => ({
       [VipRuleFields.ID]: item[VipRuleFields.ID],
+      [VipRuleFields.NUMBER]: item[VipRuleFields.NUMBER],
       [VipRuleFields.NAME]: item[VipRuleFields.NAME],
       [VipRuleFields.VALUE]: item[VipRuleFields.VALUE],
       [VipRuleFields.CUSTOMER_TYPE_ID]: item[VipRuleFields.CUSTOMER_TYPE_ID],
@@ -155,7 +156,7 @@ onMounted(() => {
 const showModal = () => {
   modalVisible.value = true;
   modalTitle.value = t('message.insertVipRule');
-  form[VipRuleFields.ID] = generateSnowflakeId({
+  form[VipRuleFields.NUMBER] = generateSnowflakeId({
       prefix: 'VR-',
       separator: null,
     });
@@ -174,6 +175,7 @@ const editVipRule = (record) => {
   modalVisible.value = true;
   modalTitle.value = t('message.updateVipRule');
   form[VipRuleFields.ID] = record[VipRuleFields.ID];
+  form[VipRuleFields.NUMBER] = record[VipRuleFields.NUMBER];
   form[VipRuleFields.NAME] = record[VipRuleFields.NAME];
   form[VipRuleFields.VALUE] = record[VipRuleFields.VALUE];
   form[VipRuleFields.CUSTOMER_TYPE_ID] = record[VipRuleFields.CUSTOMER_TYPE_ID];

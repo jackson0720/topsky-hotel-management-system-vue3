@@ -2,7 +2,6 @@ import { BaseFields, BaseInitialValues } from './common.entity';
 import { formatDate } from '@/utils/index';
 
 export const EnergyManagementSpecificFields  = {
-    ID: 'Id',
     NUMBER: 'InformationId',
     ROOMNUMBER: 'RoomNumber',
     CUSTOMERNUMBER: 'CustomerNumber',

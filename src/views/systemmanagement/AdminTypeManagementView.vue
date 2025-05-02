@@ -83,6 +83,7 @@
       });
       if (result?.listSource) {
         roles.value = result.listSource.map(item => ({
+        [AdministratorTypeFields.ID]: item[AdministratorTypeFields.ID],
         [AdministratorTypeFields.NUMBER]: item[AdministratorTypeFields.NUMBER],
         [AdministratorTypeFields.NAME]: item[AdministratorTypeFields.NAME]
       }));
@@ -120,6 +121,7 @@
   const editAdminType = (record) => {
     modalVisible.value = true;
     modalTitle.value = t('message.updateAdminType');
+    form[AdministratorTypeFields.ID] = record[AdministratorTypeFields.ID];
     form[AdministratorTypeFields.NUMBER] = record[AdministratorTypeFields.NUMBER];
     form[AdministratorTypeFields.NAME] = record[AdministratorTypeFields.NAME];
     form.modifystatus = 'update';

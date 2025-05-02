@@ -81,6 +81,7 @@ const fetchQualificationData = async () => {
     });
     if (result?.listSource) {
       qualifications.value = result.listSource.map(item => ({
+      [EducationFields.ID]: item[EducationFields.ID],
       [EducationFields.NUMBER]: item[EducationFields.NUMBER],
       [EducationFields.NAME]: item[EducationFields.NAME]
     }));
@@ -102,6 +103,7 @@ onMounted(() => {
 const showModal = () => {
   modalVisible.value = true;
   modalTitle.value = t('message.insertQualification');
+  form[EducationFields.ID] = null;
   form[EducationFields.NUMBER] = generateSnowflakeId({
       prefix: 'E-',
       separator: null,
@@ -119,6 +121,7 @@ const refreshData = () =>
 const editQualification = (record) => {
   modalVisible.value = true;
   modalTitle.value = t('message.updateQualification');
+  form[EducationFields.ID] = record[EducationFields.ID];
   form[EducationFields.NUMBER] = record.EducationNumber;
   form[EducationFields.NAME] = record.EducationName;
   form.modifystatus = 'update';

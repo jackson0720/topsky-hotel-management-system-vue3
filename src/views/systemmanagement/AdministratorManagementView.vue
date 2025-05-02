@@ -114,6 +114,7 @@ const fetchAdministratorData = async () => {
     });
     if (result?.listSource) {
       admins.value = result.listSource.map(item => ({
+      [AdministratorFields.ID]: item[AdministratorFields.ID],
       [AdministratorFields.NUMBER]: item[AdministratorFields.NUMBER],
       [AdministratorFields.NAME]: item[AdministratorFields.NAME],
       [AdministratorFields.ACCOUNT]: item[AdministratorFields.ACCOUNT],
@@ -176,6 +177,7 @@ const refreshData = () =>
 const editAdministrator = (record) => {
   modalVisible.value = true;
   modalTitle.value = t('message.updateAdministrator');
+  form[AdministratorFields.ID] = record[AdministratorFields.ID];
   form[AdministratorFields.NUMBER] = record[AdministratorFields.NUMBER];
   form[AdministratorFields.NAME] = record[AdministratorFields.NAME];
   form[AdministratorFields.ACCOUNT] = record[AdministratorFields.ACCOUNT];

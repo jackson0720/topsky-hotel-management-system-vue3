@@ -186,6 +186,7 @@ const fetchCustomerData = async () => {
     if (result?.listSource){
       customers.value = result.listSource.map(item => ({
         [CustomerFields.ID]: item[CustomerFields.ID],
+        [CustomerFields.NUMBER]: item[CustomerFields.NUMBER],
         [CustomerFields.NAME]: item[CustomerFields.NAME],
         [CustomerFields.GENDER]: item[CustomerFields.GENDER],
         [CustomerFields.GENDER_NAME]: item[CustomerFields.GENDER] === Gender.MALE 
@@ -243,7 +244,7 @@ onMounted(() => {
 const showModal = () => {
   modalVisible.value = true;
   modalTitle.value = t('message.insertCustomer');
-  form[CustomerFields.ID] = generateSnowflakeId({
+  form[CustomerFields.NUMBER] = generateSnowflakeId({
       prefix: 'TS-',
       separator: null,
     });
@@ -267,7 +268,7 @@ const refreshData = () =>
 const editCustomer = (record) => {
   modalVisible.value = true;
   modalTitle.value = t('message.updateDepartment');
-  form[CustomerFields.ID] = record[CustomerFields.ID];
+  form[CustomerFields.NUMBER] = record[CustomerFields.NUMBER];
   form[CustomerFields.NAME] = record[CustomerFields.NAME];
   form[CustomerFields.GENDER] = record[CustomerFields.GENDER];
   form[CustomerFields.BIRTH_DATE] = record[CustomerFields.BIRTH_DATE] ? dayjs(record[CustomerFields.BIRTH_DATE]) : null;

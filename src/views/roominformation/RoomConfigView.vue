@@ -119,6 +119,7 @@ const fetchRoomConfigData = async () => {
     });
     if (result?.listSource) {
       roomconfigs.value = result.listSource.map(item => ({
+        [RoomConfigFields.ID]: item[RoomConfigFields.ID],
         [RoomConfigFields.NO]: item[RoomConfigFields.NO],
         [RoomConfigFields.NAME]: item[RoomConfigFields.NAME],
         [RoomConfigFields.RENT]: item[RoomConfigFields.RENT],
@@ -156,6 +157,7 @@ const refreshData = () =>
 const editRoomConfig = (record) => {
   modalVisible.value = true;
   modalTitle.value = t('message.updateRoomConfig');
+  form[RoomConfigFields.ID] = record[RoomConfigFields.ID];
   form[RoomConfigFields.NO] = record[RoomConfigFields.NO];
   form[RoomConfigFields.NAME] = record[RoomConfigFields.NAME];
   form[RoomConfigFields.RENT] = record[RoomConfigFields.RENT];

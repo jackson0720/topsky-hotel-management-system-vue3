@@ -1,7 +1,6 @@
 import { BaseFields, BaseInitialValues } from './common.entity';
 
 export const NationSpecificFields = {
-    ID: 'Id',
     NUMBER: 'NationNumber',
     NAME: 'NationName'
   };

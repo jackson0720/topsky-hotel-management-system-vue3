@@ -70,6 +70,7 @@ const fetchRoomData = async () => {
     
     if (response?.listSource) {
       rooms.value = response.listSource.map(item => ({
+        [RoomFields.ID]: item[RoomFields.ID],
         [RoomFields.NO]: item[RoomFields.NO],
         [RoomFields.NAME]: item[RoomFields.NAME],
         [RoomFields.STATE]: RoomStateMap[item[RoomFields.STATE]] || item[RoomFields.STATE],

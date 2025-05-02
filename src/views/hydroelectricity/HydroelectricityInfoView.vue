@@ -107,6 +107,7 @@ const fetchHydroelectricityData = async () => {
     });
     if (result?.listSource) {
       hydroelectricitys.value = result.listSource.map(item => ({
+      [EnergyManagementFields.ID]: item[EnergyManagementFields.ID],
       [EnergyManagementFields.NUMBER]: item[EnergyManagementFields.NUMBER],
       [EnergyManagementFields.ROOMNUMBER]: item[EnergyManagementFields.ROOMNUMBER],
       [EnergyManagementFields.CUSTOMERNUMBER]: item[EnergyManagementFields.CUSTOMERNUMBER],
@@ -135,6 +136,7 @@ onMounted(() => {
 const editHydroelectricity = (record) => {
   modalVisible.value = true;
   modalTitle.value = t('message.updateHydroelectricity');
+  form[EnergyManagementFields.ID] = record[EnergyManagementFields.ID];
   form[EnergyManagementFields.NUMBER] = record[EnergyManagementFields.NUMBER];
   form[EnergyManagementFields.ROOMNUMBER] = record[EnergyManagementFields.ROOMNUMBER];
   form[EnergyManagementFields.CUSTOMERNUMBER] = record[EnergyManagementFields.CUSTOMERNUMBER];

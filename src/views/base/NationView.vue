@@ -83,6 +83,7 @@ const fetchNationData = async () => {
     });
     if (result?.listSource) {
       nations.value = result.listSource.map(item => ({
+      [NationFields.ID]: item[NationFields.ID],
       [NationFields.NUMBER]: item[NationFields.NUMBER],
       [NationFields.NAME]: item[NationFields.NAME]
     }));
@@ -120,6 +121,7 @@ const refreshData = () =>
 const editNation = (record) => {
   modalVisible.value = true;
   modalTitle.value = t('message.updateNation');
+  form[NationFields.ID] = record[NationFields.ID];
   form[NationFields.NUMBER] = record[NationFields.NUMBER];
   form[NationFields.NAME] = record[NationFields.NAME];
   form.modifystatus = 'update';

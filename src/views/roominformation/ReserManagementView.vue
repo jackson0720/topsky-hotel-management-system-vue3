@@ -59,7 +59,7 @@
   import { getPageTitle } from '@/utils/pageTitle';
   import { formatDate, showErrorNotification, showSuccessNotification } from '@/utils/index';
   import { fetchResers, addReser, updateReser, deleteReser } from '@/api/reserapi';
-  import { fetchRooms } from '@/api/roomapi';
+  import { fetchAvailableRooms } from '@/api/roomapi';
   import { 
     ReserFields,
     initialFormValues,
@@ -69,6 +69,7 @@
   import { RoomFields } from '@/entities/room.entity';
   import { useI18n } from 'vue-i18n';
   import generateSnowflakeId from '@/utils/snowflake';
+  import dayjs from 'dayjs';
   
   const { t } = useI18n();
   const route = useRoute();
@@ -117,6 +118,7 @@
         [ReserFields.IS_DELETED]: 0
       });
       resers.value = result.listSource.map(item => ({
+      [ReserFields.ID]: item[ReserFields.ID],
       [ReserFields.NUMBER]: item[ReserFields.NUMBER],
       [ReserFields.PHONENUMBER]: item[ReserFields.PHONENUMBER],
       [ReserFields.CHANNEL]: item[ReserFields.CHANNEL],
@@ -135,10 +137,7 @@
   
 const fetchSelectRooms = async () => {
   try {
-    const result = await fetchRooms({
-        [ReserFields.IGNOREPAGING]: true,
-        [RoomFields.STATE_ID]: 0
-    });
+    const result = await fetchAvailableRooms();
     roomOptions.value = result.listSource.map((item) => ({
       label: item[RoomFields.NO],
       value: item[RoomFields.NO],
@@ -167,7 +166,7 @@ const fetchSelectRooms = async () => {
     form[ReserFields.ENDDATE] = null;
     form[ReserFields.CHANNEL] = '';
   
-    form.modifystatus = 'insert';
+    form[ReserFields.MODIFYSTATUS] = 'insert';
   };
   
   const refreshData = () => 
@@ -178,22 +177,24 @@ const fetchSelectRooms = async () => {
   const editReser = (record) => {
     modalVisible.value = true;
     modalTitle.value = t('message.updateReser');
+    form[ReserFields.ID] = record[ReserFields.ID];
     form[ReserFields.NUMBER] = record[ReserFields.NUMBER];
     form[ReserFields.CUSTOMERNAME] = record[ReserFields.CUSTOMERNAME];
     form[ReserFields.PHONENUMBER] = record[ReserFields.PHONENUMBER];
     form[ReserFields.ROOMNUMBER] = record[ReserFields.ROOMNUMBER];
-    form[ReserFields.STARTDATE] = record[ReserFields.STARTDATE];
-    form[ReserFields.ENDDATE] = record[ReserFields.ENDDATE];
+    form[ReserFields.STARTDATE] = record[ReserFields.STARTDATE] ? dayjs(record[ReserFields.STARTDATE]) : null;
+    form[ReserFields.ENDDATE] = record[ReserFields.ENDDATE] ? dayjs(record[ReserFields.ENDDATE]) : null;
     form[ReserFields.CHANNEL] = record[ReserFields.CHANNEL];
   
-    form.modifystatus = 'update';
+    form[ReserFields.MODIFYSTATUS] = 'update';
   };
   
   const handleModalOk = async () => {
     try {
       await formRef.value.validate();
+      console.log(form[ReserFields.MODIFYSTATUS]);
       confirmLoading.value = true;
-      if (form.modifystatus === 'update') {
+      if (form[ReserFields.MODIFYSTATUS] === 'update') {
         var response = await updateReser({ ...form});
         if (response && response.StatusCode !== 200) {
           showErrorNotification(t('message.operationTitle'), t('message.updateFailed'));

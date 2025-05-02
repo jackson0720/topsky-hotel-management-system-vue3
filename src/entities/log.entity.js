@@ -2,7 +2,7 @@ import { BaseFields, BaseInitialValues } from './common.entity';
 import { formatDate } from '@/utils/index';
 
 export const LogSpecificFields = {
-    ID: 'OperationId',
+    NUMBER: 'OperationId',
     TIME: 'OperationTime',
     CONTENT: 'LogContent',
     ACCOUNT: 'OperationAccount',
@@ -19,7 +19,7 @@ export const LogFields = {
 
 export const initialFormValues = {
     ...BaseInitialValues,
-    [LogFields.ID]: null,
+    [LogFields.NUMBER]: null,
     [LogFields.TIME]: null,
     [LogFields.CONTENT]: '',
     [LogFields.ACCOUNT]: '',

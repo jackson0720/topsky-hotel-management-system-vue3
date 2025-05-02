@@ -1,7 +1,6 @@
 import { BaseFields, BaseInitialValues } from './common.entity';
 
 export const ReserSpecificFields = {
-    ID: 'Id',
     NUMBER: 'ReservationId',
     CUSTOMERNAME: 'CustomerName',
     PHONENUMBER: 'ReservationPhoneNumber',
@@ -24,8 +23,7 @@ export const ReserSpecificFields = {
     [ReserFields.CHANNEL]: '',
     [ReserFields.ROOMNUMBER]: '',
     [ReserFields.STARTDATE]: null,
-    [ReserFields.ENDDATE]: null,
-    modifystatus: ''
+    [ReserFields.ENDDATE]: null
   };
   
   export const getColumns = (t) => [

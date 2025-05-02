@@ -119,6 +119,7 @@ const fetchCustomerTypeData = async () => {
     });
     if (result?.listSource) {
         customerTypes.value = result.listSource.map(item => ({
+            [CustomerTypeFields.ID]: item[CustomerTypeFields.ID],
             [CustomerTypeFields.NUMBER]: item[CustomerTypeFields.NUMBER],
             [CustomerTypeFields.NAME]: item[CustomerTypeFields.NAME]
         }));
@@ -153,6 +154,7 @@ const refreshData = () =>
 const editCustomerType = (record) => {
   modalVisible.value = true;
   modalTitle.value = t('message.updateCustomerType');
+  form[CustomerTypeFields.ID] = record[CustomerTypeFields.ID];
   form[CustomerTypeFields.NUMBER] = record[CustomerTypeFields.NUMBER];
   form[CustomerTypeFields.NAME] = record[CustomerTypeFields.NAME];
   form.modifystatus = 'update';

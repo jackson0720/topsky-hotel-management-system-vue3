@@ -10,6 +10,16 @@ export const fetchRooms = async (params) => {
   }
 };
 
+// 获取可使用房间列表
+export const fetchAvailableRooms = async (params) => {
+  try {
+    const response = await api.get('/Room/SelectCanUseRoomAll', { params });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 // 添加房间
 export const addRoom = async (data) => {
   try {

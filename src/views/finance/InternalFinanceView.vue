@@ -136,6 +136,7 @@ const fetchInternalfinanceData = async () => {
     });
     if (result?.listSource) {
       cashs.value = result.listSource.map(item => ({
+      [InternalFinanceFields.ID]: item[InternalFinanceFields.ID],
       [InternalFinanceFields.NUMBER]: item[InternalFinanceFields.NUMBER],
       [InternalFinanceFields.NAME]: item[InternalFinanceFields.NAME],
       [InternalFinanceFields.ASSETVALUE]: item[InternalFinanceFields.ASSETVALUE],
@@ -222,6 +223,7 @@ const refreshData = () =>
 const editInternalfinance = (record) => {
   modalVisible.value = true;
   modalTitle.value = t('message.updateInternalFinance');
+  form[InternalFinanceFields.ID] = record[InternalFinanceFields.ID];
   form[InternalFinanceFields.NUMBER] = record[InternalFinanceFields.NUMBER];
   form[InternalFinanceFields.NAME] = record[InternalFinanceFields.NAME];
   form[InternalFinanceFields.ASSETVALUE] = record[InternalFinanceFields.ASSETVALUE];

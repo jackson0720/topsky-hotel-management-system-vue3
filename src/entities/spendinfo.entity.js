@@ -2,6 +2,7 @@ import { BaseFields, BaseInitialValues } from './common.entity';
 import { formatDate } from '@/utils/index';
 
 export const SpendInfoSpecificFields = {
+  NUMBER: 'SpendNumber',
   ROOM_NO: 'RoomNumber',
   CUSTO_NO: 'CustomerNumber',
   NAME: 'ProductName',
@@ -34,6 +35,7 @@ export const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 
 export const initialFormValues = {
   ...BaseInitialValues,
+  [SpendInfoFields.NUMBER]: null,
   [SpendInfoFields.ROOM_NO]: null,
   [SpendInfoFields.CUSTO_NO]: null,
   [SpendInfoFields.NAME]: '',
@@ -45,6 +47,12 @@ export const initialFormValues = {
 };
 
 export const getColumns = (t) => [
+  {
+    title: t('message.spendNumber'),
+    dataIndex: SpendInfoFields.NUMBER,
+    key: SpendInfoFields.NUMBER,
+    sorter: (a, b) => a[SpendInfoFields.NUMBER].localeCompare(b[SpendInfoFields.NUMBER])
+  },
   {
     title: t('message.roomNo'),
     dataIndex: SpendInfoFields.ROOM_NO,

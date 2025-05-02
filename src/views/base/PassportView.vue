@@ -81,6 +81,7 @@
       });
       if (result?.listSource) {
         passports.value = result.listSource.map(item => ({
+        [PassportFields.ID]: item[PassportFields.ID],
         [PassportFields.NUMBER]: item[PassportFields.NUMBER],
         [PassportFields.NAME]: item[PassportFields.NAME]
       }));
@@ -115,6 +116,7 @@
   const editPassport = (record) => {
     modalVisible.value = true;
     modalTitle.value = t('message.updatePassport');
+    form[PassportFields.ID] = record[PassportFields.ID];
     form[PassportFields.NUMBER] = record[PassportFields.NUMBER];
     form[PassportFields.NAME] = record[PassportFields.NAME];
     form.modifystatus = 'update';

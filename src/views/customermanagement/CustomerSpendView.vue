@@ -18,6 +18,16 @@
     <a-modal :open="modalVisible" :title="modalTitle" @ok="handleModalOk" @cancel="handleModalCancel" :confirm-loading="confirmLoading">
       <a-form :model="form" :rules="rules" ref="formRef" layout="vertical">
         <a-row :gutter="24">
+          <a-col :span="24">
+            <a-form-item :label="spendNumberLabel" :name="SpendInfoFields.NUMBER">
+              <a-input 
+                v-model:value="form[SpendInfoFields.NUMBER]" 
+                disabled
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="24">
           <a-col :span="12">
             <a-form-item :label="roomNoLabel" :name="SpendInfoFields.ROOM_NO">
               <a-input 
@@ -125,6 +135,7 @@ const form = reactive({ ...initialFormValues });
 
 const rules = getFormRules(t);
 
+const spendNumberLabel = computed(() => t('message.spendNumber'));
 const roomNoLabel = computed(() => t('message.roomNo'));
 const customerNoLabel = computed(() => t('message.customerNo'));
 const spendNameLabel = computed(() => t('message.spendName'));
@@ -158,6 +169,8 @@ const fetchSpendInfoData = async () => {
     });
     if(result?.listSource){
     spends.value = result.listSource.map(item => ({
+      [SpendInfoFields.ID]: item[SpendInfoFields.ID],
+      [SpendInfoFields.NUMBER]: item[SpendInfoFields.NUMBER],
       [SpendInfoFields.ROOM_NO]: item[SpendInfoFields.ROOM_NO],
       [SpendInfoFields.CUSTO_NO]: item[SpendInfoFields.CUSTO_NO],
       [SpendInfoFields.NAME]: item[SpendInfoFields.NAME],
@@ -191,6 +204,8 @@ const refreshData = () =>
 const editSpend = (record) => {
   modalVisible.value = true;
   modalTitle.value = t('message.updateSpend');
+  form[SpendInfoFields.ID] = record[SpendInfoFields.ID];
+  form[SpendInfoFields.NUMBER] = record[SpendInfoFields.NUMBER];
   form[SpendInfoFields.ROOM_NO] = record[SpendInfoFields.ROOM_NO];
   form[SpendInfoFields.CUSTO_NO] = record[SpendInfoFields.CUSTO_NO];
   form[SpendInfoFields.NAME] = record[SpendInfoFields.NAME];

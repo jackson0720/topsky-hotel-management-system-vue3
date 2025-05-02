@@ -69,7 +69,6 @@
               <a-date-picker
                 v-model:value="form[EmployeeFields.DATEOFBIRTH]"
                 :format="getDateFormat(EmployeeFields.DATEOFBIRTH)"
-                :show-time="needsTime(EmployeeFields.DATEOFBIRTH)"
                 :valueFormat="getValueFormat(EmployeeFields.DATEOFBIRTH)"
                 class="full-width"
               />
@@ -80,7 +79,6 @@
               <a-date-picker
                 v-model:value="form[EmployeeFields.HIREDATE]"
                 :format="getDateFormat(EmployeeFields.HIREDATE)"
-                :show-time="needsTime(EmployeeFields.HIREDATE)"
                 :valueFormat="getValueFormat(EmployeeFields.HIREDATE)"
                 class="full-width"
               />
@@ -196,7 +194,6 @@
 
 <script setup>
 import { ref, onMounted, computed, reactive, watch, onBeforeUnmount } from 'vue';
-import { Select } from 'ant-design-vue';
 import { useRoute,useRouter } from 'vue-router';
 import { getPageTitle } from '@/utils/pageTitle';
 import { fetchEmployees, addEmployee, updateEmployee, managerEmployeeAccount, resetEmployeePassword } from '@/api/employeeapi';
@@ -350,6 +347,7 @@ const fetchStaffData = async () => {
     });
     if(result?.listSource){
       staffs.value = result.listSource.map(item => ({
+        [EmployeeFields.ID]: item[EmployeeFields.ID],
         [EmployeeFields.NUMBER]: item[EmployeeFields.NUMBER],
         [EmployeeFields.NAME]: item[EmployeeFields.NAME],
         [EmployeeFields.GENDER]: item[EmployeeFields.GENDER],
@@ -513,6 +511,7 @@ const refreshData = () =>
 const editStaff = (record) => {
   modalVisible.value = true;
   modalTitle.value = t('message.updateStaff');
+  form[EmployeeFields.ID] = record[EmployeeFields.ID];
   form[EmployeeFields.NUMBER] = record[EmployeeFields.NUMBER];
   form[EmployeeFields.NAME] = record[EmployeeFields.NAME];
   form[EmployeeFields.GENDER] = record[EmployeeFields.GENDER];
@@ -528,6 +527,8 @@ const editStaff = (record) => {
   form[EmployeeFields.PHONENUMBER] = record[EmployeeFields.PHONENUMBER];
   form[EmployeeFields.ADDRESS] = record[EmployeeFields.ADDRESS];
   form[EmployeeFields.EMAILADDRESS] = record[EmployeeFields.EMAILADDRESS];
+  form[EmployeeFields.ISENABLE] = record[EmployeeFields.ISENABLE];
+  form[EmployeeFields.IS_DELETED] = record[EmployeeFields.IS_DELETED];
 
   form.modifystatus = 'update';
 };
@@ -565,6 +566,7 @@ const handleModalOk = async () => {
     });
     confirmLoading.value = true;
     if (form.modifystatus === 'update') {
+      console.log(payload);
       var response = await updateEmployee(payload);
       if(response && response.StatusCode === 200)
       {

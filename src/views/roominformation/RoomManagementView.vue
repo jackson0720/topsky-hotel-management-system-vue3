@@ -126,6 +126,7 @@ const fetchRoomData = async () => {
       [RoomFields.IS_DELETED]: 0
     });
     rooms.value = result.listSource.map(item => ({
+    [RoomFields.ID]: item[RoomFields.ID],
     [RoomFields.NO]: item[RoomFields.NO],
     [RoomFields.NAME]: item[RoomFields.NAME],
     [RoomFields.TYPE]: item[RoomFields.TYPE],
@@ -199,6 +200,7 @@ const refreshData = () =>
 const editRoom = (record) => {
   modalVisible.value = true;
   modalTitle.value = t('message.updateRoom');
+  form[RoomFields.ID] = record[RoomFields.ID];
   form[RoomFields.NO] = record[RoomFields.NO];
   form[RoomFields.TYPE] = record[RoomFields.TYPE];
   form[RoomFields.STATE_ID] = record[RoomFields.STATE_ID];

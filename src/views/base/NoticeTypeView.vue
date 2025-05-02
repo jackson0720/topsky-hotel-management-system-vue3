@@ -83,6 +83,7 @@
       });
       if (result?.listSource) {
         notices.value = result.listSource.map(item => ({
+        [NoticeTypeFields.ID]: item[NoticeTypeFields.ID],
         [NoticeTypeFields.NUMBER]: item[NoticeTypeFields.NUMBER],
         [NoticeTypeFields.NAME]: item[NoticeTypeFields.NAME],
         [NoticeTypeFields.IS_DELETED]: item[NoticeTypeFields.IS_DELETED]
@@ -121,6 +122,7 @@
   const editNoticeType = (record) => {
     modalVisible.value = true;
     modalTitle.value = t('message.updateNoticeType');
+    form[NoticeTypeFields.ID] = record[NoticeTypeFields.ID];
     form[NoticeTypeFields.NUMBER] = record[NoticeTypeFields.NUMBER];
     form[NoticeTypeFields.NAME] = record[NoticeTypeFields.NAME];
     form.modifystatus = 'update';

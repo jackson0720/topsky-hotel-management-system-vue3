@@ -1,7 +1,6 @@
 import { BaseFields, BaseInitialValues } from './common.entity';
 
 export const MenuSpecificFields = {
-    ID: 'Id',
     KEY: 'Key',
     TITLE: 'Title',
     PATH: 'Path',

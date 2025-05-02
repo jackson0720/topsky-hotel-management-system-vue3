@@ -110,6 +110,7 @@ const fetchGoodsData = async () => {
     });
     if (result?.listSource) {
       goodss.value = result.listSource.map(item => ({
+        [GoodsFields.ID]: item[GoodsFields.ID],
         [GoodsFields.NUMBER]: item[GoodsFields.NUMBER],
         [GoodsFields.NAME]: item[GoodsFields.NAME],
         [GoodsFields.SPECIFICATION]: item[GoodsFields.SPECIFICATION],

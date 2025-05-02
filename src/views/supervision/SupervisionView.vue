@@ -118,6 +118,7 @@ const fetchSupervisionInfoData = async () => {
     });
     if (result?.listSource) {
       supervisioninfos.value = result.listSource.map(item => ({
+        [SupervisionFields.ID]: item[SupervisionFields.ID],
         [SupervisionFields.CHECK_NO]: item[SupervisionFields.CHECK_NO],
         [SupervisionFields.CHECK_CLUB]: item[SupervisionFields.CHECK_CLUB],
         [SupervisionFields.CHECK_CLUB_NAME]: item[SupervisionFields.CHECK_CLUB_NAME],

@@ -1,7 +1,7 @@
 import { BaseFields, BaseInitialValues } from './common.entity';
 
 export const CustomerSpecificFields = {
-  ID: 'CustomerNumber',
+  NUMBER: 'CustomerNumber',
   NAME: 'CustomerName',
   GENDER: 'CustomerGender',
   GENDER_NAME: 'GenderName',
@@ -29,7 +29,7 @@ export const DATE_FORMAT = 'YYYY-MM-DD';
 
 export const initialFormValues = {
   ...BaseInitialValues,
-  [CustomerFields.ID]: null,
+  [CustomerFields.NUMBER]: null,
   [CustomerFields.NAME]: '',
   [CustomerFields.GENDER]: null,
   [CustomerFields.BIRTH_DATE]: null,
@@ -44,9 +44,9 @@ export const initialFormValues = {
 export const getColumns = (t) => [
   {
     title: t('message.customerNo'),
-    dataIndex: CustomerFields.ID,
-    key: CustomerFields.ID,
-    sorter: (a, b) => a[CustomerFields.ID].localeCompare(b[CustomerFields.ID]),
+    dataIndex: CustomerFields.NUMBER,
+    key: CustomerFields.NUMBER,
+    sorter: (a, b) => a[CustomerFields.NUMBER].localeCompare(b[CustomerFields.NUMBER]),
     defaultSortOrder: 'ascend'
   },
   {

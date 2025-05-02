@@ -118,6 +118,7 @@ const fetchDepartmentData = async () => {
     });
     if (result?.listSource) {
       departments.value = result.listSource.map(item => ({
+      [DepartmentFields.ID]: item[DepartmentFields.ID],
       [DepartmentFields.NUMBER]: item[DepartmentFields.NUMBER],
       [DepartmentFields.NAME]: item[DepartmentFields.NAME],
       [DepartmentFields.DESCRIPTION]: item[DepartmentFields.DESCRIPTION],
@@ -178,6 +179,7 @@ onMounted(() => {
 const showModal = () => {
   modalVisible.value = true;
   modalTitle.value = t('message.insertDepartment');
+  form[DepartmentFields.ID] = 0;
   form[DepartmentFields.NUMBER] = generateSnowflakeId({
       prefix: 'D-',
       separator: null,
@@ -198,6 +200,7 @@ const refreshData = () =>
 const editDepartment = (record) => {
   modalVisible.value = true;
   modalTitle.value = t('message.updateDepartment');
+  form[DepartmentFields.ID] = record[DepartmentFields.ID];
   form[DepartmentFields.NUMBER] = record[DepartmentFields.NUMBER];
   form[DepartmentFields.NAME] = record[DepartmentFields.NAME];
   form[DepartmentFields.DESCRIPTION] = record[DepartmentFields.DESCRIPTION];

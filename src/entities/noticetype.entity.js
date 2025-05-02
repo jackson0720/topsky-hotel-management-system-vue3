@@ -1,7 +1,6 @@
 import { BaseFields, BaseInitialValues } from './common.entity';
 
 export const NoticeTypeSpecificFields = {
-    ID: 'Id',
     NUMBER: 'NoticeTypeNumber',
     NAME: 'NoticeTypeName'
   };

@@ -1,7 +1,6 @@
 import { BaseFields, BaseInitialValues } from './common.entity';
 
 export const RoleSpecificFields = {
-    ID: 'Id',
     NUMBER: 'RoleNumber',
     NAME: 'RoleName',
     DESCRIPTION: 'RoleDescription',

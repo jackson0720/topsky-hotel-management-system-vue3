@@ -83,6 +83,7 @@ const fetchPositionData = async () => {
     });
     if (result?.listSource) {
       positions.value = result.listSource.map(item => ({
+      [PositionFields.ID]: item[PositionFields.ID],
       [PositionFields.NUMBER]: item[PositionFields.NUMBER],
       [PositionFields.NAME]: item[PositionFields.NAME]
     }));
@@ -104,6 +105,7 @@ onMounted(() => {
 const showModal = () => {
   modalVisible.value = true;
   modalTitle.value = t('message.insertPosition');
+  form[PositionFields.ID] = 0;
   form[PositionFields.NUMBER] = generateSnowflakeId({
       prefix: 'P-',
       separator: null,
@@ -121,6 +123,7 @@ const refreshData = () =>
 const editPosition = (record) => {
   modalVisible.value = true;
   modalTitle.value = t('message.updatePosition');
+  form[PositionFields.ID] = record[PositionFields.ID];
   form[PositionFields.NUMBER] = record.PositionNumber;
   form[PositionFields.NAME] = record.PositionName;
   form.modifystatus = 'update';
@@ -141,6 +144,7 @@ const handleModalOk = async () => {
         showErrorNotification('error', t('message.operationTitle'), t('message.pleaseTryAgainLater'));
       }
     } else {
+      console.log(form)
       var response = await addPosition({ ...form});
       if(response && response.StatusCode === 200)
       {

@@ -2,7 +2,6 @@ import { BaseFields, BaseInitialValues } from './common.entity';
 import { formatDate } from '@/utils/index';
 
 export const EmployeeRewardPunishmentSpecificFields  = {
-    NUMBER: 'Id',
     EMPLOYEENUMBER: 'EmployeeId',
     TIME: 'RewardPunishmentTime',
     TYPE: 'RewardPunishmentType',
@@ -25,7 +24,6 @@ export const EmployeeRewardPunishmentSpecificFields  = {
   
   export const initialFormValues = {
     ...BaseInitialValues,
-    [EmployeeRewardPunishmentFields.NUMBER]: null,
     [EmployeeRewardPunishmentFields.EMPLOYEENUMBER]: '',
     [EmployeeRewardPunishmentFields.TIME]: null,
     [EmployeeRewardPunishmentFields.TYPE]: null,

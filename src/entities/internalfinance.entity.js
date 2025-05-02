@@ -1,7 +1,6 @@
 import { BaseFields, BaseInitialValues } from './common.entity';
 
 export const InternalFinanceSpecificFields  = {
-    ID: 'Id',
     NUMBER: 'AssetNumber',
     NAME: 'AssetName',
     ASSETVALUE: 'AssetValue',
