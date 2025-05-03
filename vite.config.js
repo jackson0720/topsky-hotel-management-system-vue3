@@ -9,7 +9,6 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
-    assetsInclude: ['​**​/*.woff', '​**​/*.woff2'],
     plugins: [
       vue(),
       Components({
@@ -30,8 +29,7 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, 'src'),
-        'ant-design-vue/es': 'ant-design-vue/es',
-        '~fonts': path.resolve(__dirname, 'src/assets/fonts')
+        'ant-design-vue/es': 'ant-design-vue/es'
       }
     },
     optimizeDeps: {
@@ -48,19 +46,23 @@ export default defineConfig(({ mode }) => {
             'font-family': "'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial"
           },
           javascriptEnabled: true,
-          additionalData: `@import "${path.resolve(__dirname, 'src/styles/antd.less')}";`
+          additionalData: `
+          @import "${path.resolve(__dirname, 'src/styles/antd.less')}";
+          `
         }
       }
     },
     build: {
-      assetsDir: 'assets/fonts',
       rollupOptions: {
         output: {
           assetFileNames: (assetInfo) => {
-            if (/\.(woff|woff2)$/.test(assetInfo.name)) {
-              return 'assets/fonts/[name][extname]'
+            if (assetInfo.name === 'NotoSans-Regular.woff') {
+              return 'assets/fonts/NotoSans-Regular.woff';
             }
-            return 'assets/[name][extname]'
+            if (assetInfo.name === 'NotoSans-Regular.woff2') {
+              return 'assets/fonts/NotoSans-Regular.woff2';
+            }
+            return 'assets/[name][extname]';
           }
         }
       }
