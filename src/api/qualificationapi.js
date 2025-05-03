@@ -13,6 +13,7 @@ export const fetchQualifications = async (params) => {
 // 添加学历
 export const addQualification = async (data) => {
   try {
+    console.log(data);
     const response = await api.post('/Base/AddEducation', data);
     return response.data;
   } catch (error) {

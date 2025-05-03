@@ -202,7 +202,7 @@ const workHistory = ref([]);
 const workRewardPunishment = ref([]);
 const workCheckInfo = ref([]);
 const loading = ref(true);
-const avatarUrl = ref('https://randomuser.me/api/portraits/men/85.jpg');
+const avatarUrl = ref([]);
 
 const pageTitle = ref(t('message.employeeDetail'));
 

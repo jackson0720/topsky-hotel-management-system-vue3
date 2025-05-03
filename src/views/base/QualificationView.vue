@@ -103,7 +103,7 @@ onMounted(() => {
 const showModal = () => {
   modalVisible.value = true;
   modalTitle.value = t('message.insertQualification');
-  form[EducationFields.ID] = null;
+  form[EducationFields.ID] = 0;
   form[EducationFields.NUMBER] = generateSnowflakeId({
       prefix: 'E-',
       separator: null,
@@ -122,8 +122,8 @@ const editQualification = (record) => {
   modalVisible.value = true;
   modalTitle.value = t('message.updateQualification');
   form[EducationFields.ID] = record[EducationFields.ID];
-  form[EducationFields.NUMBER] = record.EducationNumber;
-  form[EducationFields.NAME] = record.EducationName;
+  form[EducationFields.NUMBER] = record[EducationFields.NUMBER];
+  form[EducationFields.NAME] = record[EducationFields.NAME];
   form.modifystatus = 'update';
 };
 

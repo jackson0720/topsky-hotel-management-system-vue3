@@ -9,6 +9,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
+    assetsInclude: ['​**​/*.woff', '​**​/*.woff2'],
     plugins: [
       vue(),
       Components({
@@ -16,6 +17,7 @@ export default defineConfig(({ mode }) => {
           AntDesignVueResolver({
             resolveIcons: true,
             importStyle: false,
+            importStyleTheme: path.resolve(__dirname, "src/styles/antd.less")
           })
         ],
         dts: mode === 'development',
@@ -29,6 +31,7 @@ export default defineConfig(({ mode }) => {
       alias: {
         '@': path.resolve(__dirname, 'src'),
         'ant-design-vue/es': 'ant-design-vue/es',
+        '~fonts': path.resolve(__dirname, 'src/assets/fonts')
       }
     },
     optimizeDeps: {
@@ -41,14 +44,32 @@ export default defineConfig(({ mode }) => {
         less: {
           modifyVars: {
             'primary-color': '#1890ff',
-            'border-radius-base': '4px'
+            'border-radius-base': '4px',
+            'font-family': "'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial"
           },
           javascriptEnabled: true,
           additionalData: `@import "${path.resolve(__dirname, 'src/styles/antd.less')}";`
         }
       }
     },
+    build: {
+      assetsDir: 'assets/fonts',
+      rollupOptions: {
+        output: {
+          assetFileNames: (assetInfo) => {
+            if (/\.(woff|woff2)$/.test(assetInfo.name)) {
+              return 'assets/fonts/[name][extname]'
+            }
+            return 'assets/[name][extname]'
+          }
+        }
+      }
+    },
     server: {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Cache-Control': 'no-cache'
+      },
       proxy: {
         '/api': {
           target: env.VITE_API_URL,

@@ -14,6 +14,9 @@ import { useI18n } from 'vue-i18n';
 import { ConfigProvider } from 'ant-design-vue';
 import zhCN from 'ant-design-vue/es/locale/zh_CN';
 import enUS from 'ant-design-vue/es/locale/en_US';
+import dayjs from 'dayjs';
+import 'dayjs/locale/zh-cn';
+import 'dayjs/locale/en';
 
 const { locale } = useI18n();
 const antdLocale = ref(zhCN);
@@ -27,23 +30,21 @@ const reload = () => {
 };
 provide('reload', reload);
 
-const changeLanguage = (language) => {
-    localStorage.setItem('locale', language);
-    locale.value = language;
+const updateDayjsLocale = (lang) => {
+  dayjs.locale(lang === 'zh-CN' ? 'zh-cn' : 'en');
+};
+
+const generateAntdLocale = (lang) => {
+  updateDayjsLocale(lang);
+  return lang === 'zh-CN' ? zhCN : enUS;
 };
 
 watch(
-    () => locale.value,
-    (newLocale) => {
-        if (newLocale === 'zh-CN') {
-            antdLocale.value = zhCN;
-            reload();
-        } else {
-            antdLocale.value = enUS;
-            reload();
-        }
-    },
-    { immediate: true }
+  () => locale.value,
+  (newLocale) => {
+    antdLocale.value = generateAntdLocale(newLocale);
+  },
+  { immediate: true }
 );
 
 onMounted(() => {
@@ -51,3 +52,20 @@ onMounted(() => {
   checkTokenValidity();
 });
 </script>
+
+<style>
+#app {
+  font-weight: 500;
+}
+
+.ant-modal-title,
+.ant-tabs-tab,
+.ant-form-item-label > label {
+  font-family: inherit !important;
+  font-weight: inherit !important;
+}
+
+.ant-table-cell {
+  vertical-align: middle !important;
+}
+</style>
