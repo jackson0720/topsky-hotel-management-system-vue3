@@ -6,8 +6,45 @@
   />
   <a-spin :spinning="loading">
     <div v-if="employeeInfo" class="detail-container">
+      <a-modal
+        :visible="uploadVisible"
+        :footer="null"
+        :closable="false"
+        :maskClosable="false"
+        width="400px"
+        centered
+      >
+        <div class="upload-progress">
+          <a-progress
+            type="circle"
+            :percent="progressPercent"
+            :status="uploadStatus"
+          />
+          <p class="progress-text">{{ progressText }}</p>
+        </div>
+      </a-modal>
       <div class="avatar-section">
-        <a-avatar :size="160" :src="avatarUrl" class="avatar" />
+          <div class="avatar-container">
+            <a-upload
+              name="file"
+              :customRequest="customUpload"
+              :showUploadList="false"
+              :beforeUpload="beforeUpload"
+              accept="image/*"
+            >
+              <a-tooltip :title="$t('message.changeAvatar')">
+                <a-avatar :size="160" :src="avatarPreviewUrl || avatarUrl" class="avatar">
+                  <template v-if="!avatarPreviewUrl && !avatarUrl">
+                    <UserOutlined />
+                  </template>
+                  <template v-if="uploadLoading">
+                    <LoadingOutlined />
+                  </template>
+                </a-avatar>
+              </a-tooltip>
+          </a-upload>
+        </div>
+        
         <h2 class="employee-name">{{ employeeInfo[EmployeeFields.NAME] }}</h2>
         <div class="position-info">
           {{ employeeInfo[EmployeeFields.DEPARTMENTNAME] }} - {{ employeeInfo[EmployeeFields.POSITIONNAME] }}
@@ -182,7 +219,7 @@
 <script setup>
 import { ref, onMounted, computed, nextTick  } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { fetchEmployeeDetail, fetchEmployeeResume, fetchEmployeeRewardPunishment, fetchEmployeeAttendance } from '@/api/employeeapi';
+import { fetchEmployeeDetail, fetchEmployeeResume, fetchEmployeeRewardPunishment, fetchEmployeeAttendance, uploadEmployeeAvatar } from '@/api/employeeapi';
 import { 
   EmployeeFields
 } from '@/entities/employee.entity';
@@ -190,7 +227,7 @@ import { EmployeeHistoryFields, getHistoryColumns } from '@/entities/employeehis
 import { EmployeeRewardPunishmentFields, getRewardPunishmentColumns } from '@/entities/rewardpunishment.entity';
 import { EmployeeCheckFields, getCheckColumns } from '@/entities/employeecheck.entity';
 import { useI18n } from 'vue-i18n';
-import { formatDate } from '@/utils';
+import { formatDate, showErrorNotification, showSuccessNotification } from '@/utils';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -203,6 +240,13 @@ const workRewardPunishment = ref([]);
 const workCheckInfo = ref([]);
 const loading = ref(true);
 const avatarUrl = ref([]);
+
+const avatarPreviewUrl = ref('');
+const uploadLoading = ref(false);
+const uploadVisible = ref(false);
+const progressPercent = ref(0);
+const uploadStatus = ref('active');
+const progressText = ref(t('message.uploading'));
 
 const pageTitle = ref(t('message.employeeDetail'));
 
@@ -224,6 +268,74 @@ const modalTitle = computed(() => {
     ? t('message.rewardPunishmentInfo')
     : t('message.checkInfo');
 });
+
+const customUpload = async ({ file, onProgress, onSuccess, onError }) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('EmployeeId', employeeId);
+
+  try {
+
+    uploadVisible.value = true;
+    progressPercent.value = 0;
+    uploadStatus.value = 'active';
+    progressText.value = t('message.uploading');
+    const response = await uploadEmployeeAvatar(formData,{
+      onUploadProgress: (progressEvent) => {
+        const percent = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total
+        );
+        progressPercent.value = Math.min(percent, 99);
+      }
+    });
+
+    progressPercent.value = 100;
+    progressText.value = t('message.uploadSuccess');
+    await new Promise(resolve => setTimeout(resolve, 800));
+    
+    if (response?.StatusCode === 200) {
+      uploadStatus.value = 'success';
+      showSuccessNotification(t('message.avatarUpdateSuccess'));
+      avatarUrl.value = response.Source.PhotoPath;
+      avatarPreviewUrl.value = '';
+      onSuccess(response, file);
+    } else {
+      throw new Error(response?.message || t('message.uploadFailed'));
+    }
+  } catch (error) {
+    uploadStatus.value = 'exception';
+    progressText.value = t('message.uploadFailed');
+    showErrorNotification(error.message);
+    onError(error);
+  } finally {
+    setTimeout(() => {
+      uploadVisible.value = false;
+      progressPercent.value = 0;
+    }, 1500);
+  }
+};
+
+const beforeUpload = (file) => {
+  return new Promise((resolve, reject) => {
+    if (!file.type.startsWith('image/')) {
+      showErrorNotification(t('message.uploadImageOnly'));
+      return reject(false);
+    }
+
+    if (file.size / 1024 / 1024 > 2) {
+      showErrorNotification(t('message.imageSizeLimit'));
+      return reject(false);
+    }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      avatarPreviewUrl.value = reader.result;
+      resolve(true);
+    };
+    reader.onerror = error => reject(error);
+  });
+};
 
 const showMoreModal = async (type) => {
   currentDataType.value = type;
@@ -356,15 +468,55 @@ onMounted(loadData);
   padding: 24px;
 }
 
-.avatar-section {
+.upload-progress {
   text-align: center;
+  padding: 20px;
+
+  :deep(.ant-progress-circle) {
+    margin-bottom: 16px;
+  }
+
+  .progress-text {
+    margin-top: 8px;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.85);
+  }
+}
+
+.avatar-section .ant-upload-disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.avatar-section .ant-upload-disabled:hover::after {
+  display: none;
+}
+
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: 40px;
 }
 
-.avatar {
+.avatar-container {
+  position: relative;
   margin-bottom: 16px;
+}
+
+.avatar-container .ant-upload {
+  display: block !important;
+  margin: 0 auto;
+}
+
+.avatar {
   border: 3px solid #fff;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+}
+
+.avatar:hover {
+  transform: scale(1.05);
 }
 
 .employee-name {
@@ -402,6 +554,7 @@ onMounted(loadData);
     grid-column: 1 / -1;
   }
 }
+
 
 .page-header :deep(.ant-page-header-heading-title) {
   font-size: 18px;

@@ -41,6 +41,8 @@ import {
   DesktopOutlined,
   ProjectOutlined,
   CoffeeOutlined,
+  UserOutlined,
+  LoadingOutlined
 } from '@ant-design/icons-vue';
 
 export function registerAntdIcons(app) {
@@ -85,4 +87,6 @@ export function registerAntdIcons(app) {
   app.component('DesktopOutlined', DesktopOutlined);
   app.component('ProjectOutlined', ProjectOutlined);
   app.component('CoffeeOutlined', CoffeeOutlined);
+  app.component('UserOutlined', UserOutlined);
+  app.component('LoadingOutlined', LoadingOutlined);
 }

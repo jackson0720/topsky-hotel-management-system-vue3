@@ -90,3 +90,13 @@ export const resetEmployeePassword = async (data) => {
     throw error;
   }
 };
+
+// 上传员工头像
+export const uploadEmployeeAvatar = async (data) => {
+  try {
+    const response = await api.post(`/EmployeePhoto/InsertWorkerPhoto`, data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
